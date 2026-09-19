@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pydantic-stream-file"
-version = "0.1.0"
+version = "0.1.1"
 description = "High-performance O(1) RAM streaming file validation glue layer for Pydantic"
 readme = "README.md"
 authors = [
