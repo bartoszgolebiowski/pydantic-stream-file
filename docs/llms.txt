@@ -1,0 +1,22 @@
+# pydantic-stream-file
+> High-performance O(1) RAM streaming file validation glue layer for Pydantic.
+
+## Summary
+pydantic-stream-file acts as the streaming glue between I/O (massive CSV, XML files, S3 bodies) and Pydantic validation. It provides O(1) RAM guarantees, vectorized batch validation via Pydantic-core, and Dead Letter Queue error isolation.
+
+## Core API
+- `StreamValidator(adapter, model, on_error='raise', batch_size=1000)`: Synchronous stream validator (default `on_error='raise'`).
+- `StreamValidatorAsync(adapter, model, on_error='raise', batch_size=1000)`: Asynchronous stream validator (default `on_error='raise'`).
+- `StreamResult[T]`: Returned in 'yield_result' mode. Attributes: `is_valid` (bool), `item` (Optional[T]), `raw_data` (dict), `error` (Optional[ValidationError]), `location` (str).
+- `ErrorPolicy`: Enum with `RAISE = 'raise'`, `SKIP = 'skip'`, `YIELD_RESULT = 'yield_result'`.
+- `adapters.CsvAdapter(source, delimiter=',', quotechar='"', null_values=('', 'NULL', 'N/A'))`: CSV reader supporting multiline cells and sentinel coercion.
+- `adapters.XmlAdapter(source, target_tag, context_tags=(), strip_namespaces=True, attr_prefix='@')`: O(1) RAM XML streaming adapter with subtree pruning and parent context extraction.
+
+## Documentation Links
+- [Getting Started](getting-started.md)
+- [CSV Adapter](adapters/csv.md)
+- [XML Adapter](adapters/xml.md)
+- [Validation Engine & DLQ](validation/engine.md)
+- [Async Validation](validation/async.md)
+- [Polymorphic Unions](advanced/polymorphic.md)
+- [API Reference](api-reference.md)
